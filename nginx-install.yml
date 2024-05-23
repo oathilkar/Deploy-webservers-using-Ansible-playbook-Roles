@@ -1,0 +1,7 @@
+---
+- name: Install and configure Nginx
+  hosts: webservers
+  become: true  # Run tasks with root privileges
+
+  roles:
+    - nginx
