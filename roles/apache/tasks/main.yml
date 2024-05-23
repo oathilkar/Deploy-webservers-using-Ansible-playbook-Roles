@@ -1,0 +1,45 @@
+---
+- name: Install Apache HTTP Server
+  apt:
+    name: apache2
+    state: present
+  tags: [apache]
+
+- name: Copy Apache configuration file
+  template:
+    src: httpd.conf.j2
+    dest: /etc/apache2/apache2.conf
+  notify: restart apache
+  tags: [apache]
+
+- name: Ensure Apache service is enabled and started
+  systemd:
+    name: apache2
+    enabled: yes
+    state: started
+  tags: [apache]
+
+- name: Enable Apache service on system boot
+  systemd:
+    name: apache2
+    enabled: yes
+    daemon_reload: yes
+  tags: [apache]
+
+- name: Allow Apache through the firewall
+  ufw:
+    rule: allow
+    name: 'Apache Full'
+    state: enabled
+  tags: [apache]
+
+- name: Reload ufw
+  ufw:
+    state: reloaded
+  tags: [apache]
+
+handlers:
+  - name: restart apache
+    service:
+      name: apache2
+      state: restarted
