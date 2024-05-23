@@ -1,0 +1,22 @@
+ansible-webserver-deployment/
+├── inventories/
+│   └── production/
+│       └── hosts.ini       # Inventory file
+├── playbooks/
+│   ├── nginx-install.yml   # Nginx playbook
+│   └── apache-install.yml  # Apache playbook
+└── roles/
+    ├── nginx/
+    │   ├── tasks/
+    │   │   └── main.yml    # Nginx role tasks
+    │   ├── templates/
+    │   │   └── nginx.conf.j2  # Nginx configuration template
+    │   └── meta/
+    │       └── main.yml    # Nginx role metadata
+    └── apache/
+        ├── tasks/
+        │   └── main.yml    # Apache role tasks
+        ├── templates/
+        │   └── httpd.conf.j2  # Apache configuration template
+        └── meta/
+            └── main.yml    # Apache role metadata
