@@ -1,0 +1,45 @@
+---
+- name: Install Nginx
+  apt:
+    name: nginx
+    state: present
+  tags: [nginx]
+
+- name: Copy Nginx configuration file
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+  notify: restart nginx
+  tags: [nginx]
+
+- name: Ensure Nginx service is enabled and started
+  systemd:
+    name: nginx
+    enabled: yes
+    state: started
+  tags: [nginx]
+
+- name: Enable Nginx service on system boot
+  systemd:
+    name: nginx
+    enabled: yes
+    daemon_reload: yes
+  tags: [nginx]
+
+- name: Allow Nginx through the firewall
+  ufw:
+    rule: allow
+    name: 'Nginx Full'
+    state: enabled
+  tags: [nginx]
+
+- name: Reload ufw
+  ufw:
+    state: reloaded
+  tags: [nginx]
+
+handlers:
+  - name: restart nginx
+    service:
+      name: nginx
+      state: restarted
