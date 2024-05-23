@@ -1,0 +1,7 @@
+---
+- name: Install and configure Apache HTTP Server
+  hosts: webservers
+  become: true  # Run tasks with root privileges
+
+  roles:
+    - apache
